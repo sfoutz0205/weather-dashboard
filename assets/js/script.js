@@ -166,10 +166,13 @@ $(document).on('click','#cityBtn',function(){
 });
 
 var clearHistory = function() {
-    $(".search-history").html().empty();
+    $(".search-history").html("");
+    cities = [];
+    localStorage.clear();
+
 }
 
 renderHistory();
-clearBtn.addEventListener("submit", clearHistory);
+clearBtn.addEventListener("click", clearHistory);
 userFormEl.addEventListener("submit", formSubmitHandler);
  
