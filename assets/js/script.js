@@ -1,5 +1,7 @@
 var userFormEl = document.querySelector("#user-form");
 var cityInputEl = document.querySelector("#city");
+var searchHistoryEl = document.querySelector("#search-history");
+var cityBtn = document.querySelector(".cityBtn");
 var cities = [];
 
 
@@ -7,12 +9,10 @@ var cities = [];
 // function to be executed upon form submission
 var formSubmitHandler = function(event) {
     event.preventDefault();
-    $(".forecastCards").empty();
-    $(".currentWeather").empty();
+    weatherReset();
     var cityName = cityInputEl.value.trim();
 
     if (cityName) {
-        cities.push
         getForecast(cityName);
         getCurrentWeather(cityName);
         cityInputEl.value = "";
@@ -22,10 +22,14 @@ var formSubmitHandler = function(event) {
 };
 
 var getForecast = function(cityName) {
-    var apiUrl = "https://api.openweathermap.org/data/2.5/forecast?q=" + cityName + "&appid=0ced535bc528eb83a827cdf37c9b703f&units=imperial";
+    var forecastUrl = "https://api.openweathermap.org/data/2.5/forecast?q=" + cityName + "&appid=0ced535bc528eb83a827cdf37c9b703f&units=imperial";
     
 
-    fetch(apiUrl).then(function(response) {
+    fetch(forecastUrl).then(function(response) {
+        if(response.ok) {
+        cities.push(cityName);
+        localStorage.setItem("cities", JSON.stringify(cities)); 
+        renderHistory(cityName);
         response.json().then(function(data) {
         
 
@@ -34,8 +38,6 @@ var getForecast = function(cityName) {
                 if(data.list[i].dt_txt.split(" ")[1] == "15:00:00") {
 
                     var forecastDate = data.list[i].dt_txt;
-                    // var convertedDate = moment(forecastDate).format("MM/DD/YYYY")
-                    // console.log(moment(forecastDate).format("MM/DD/YYYY"));
                     
                     var forecastTemp = data.list[i].main.temp;
 
@@ -67,10 +69,13 @@ var getForecast = function(cityName) {
 
                     
                     $(".forecastCards").append(cardContent);
-                }
+                } 
             };
             $(".forecastTitle").append(cardTitle);
         });
+        } else {
+        alert("Error: " + response.statusText + " Please enter a city name");
+    }
     });
 };
 
@@ -80,17 +85,13 @@ var getCurrentWeather = function(cityName) {
 
     fetch(currentUrl).then(function(response) {
         response.json().then(function(data) {
-            console.log(data)
             
             var currentDate = moment().format("MM/DD/YYYY");
-            
-                    
+             
             var currentTemp = data.main.temp;
             
-
             var currentHumidity = data.main.humidity;
             
-
             var currentWind = data.wind.speed;
 
             var iconcode = data.weather[0].icon;
@@ -122,7 +123,32 @@ var getCurrentWeather = function(cityName) {
     })
 };
 
+var weatherReset = function() {
+    $(".forecastCards").empty();
+    $(".currentWeather").empty();
+    $(".forecastTitle").empty();
+    
+};
 
+var renderHistory = function(cityName) {
+    
+        var searchContent =
+            "<button id='cityBtn' class='col-10 p-3 m-3'><h3 id='cityName'>" +
+             cityName +
+            "</button>";
+
+            $(".search-history").prepend(searchContent);
+
+};
+
+$(document).on('click','#cityBtn',function(){
+    var cityName= this.textContent;
+    weatherReset();
+    getCurrentWeather(cityName);
+    getForecast(cityName);
   
+});
+
+
 userFormEl.addEventListener("submit", formSubmitHandler);
  
