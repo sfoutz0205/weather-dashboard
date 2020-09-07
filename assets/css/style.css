@@ -27,15 +27,12 @@
     font-size: 25px;
 }
 
-.uv-yellow {
-    background-color: yellow;
-}
-
-.uv-red {
-    background-color: red;
+#clear-btn {
+    border-radius:  10px;
 }
 
 #uv-color {
     border-radius: 5px;
     padding: 5px;
 }
+

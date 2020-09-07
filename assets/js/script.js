@@ -111,7 +111,7 @@ var getCurrentWeather = function(cityName) {
             
 
                     var currentContent =
-                            "<div class='col-12 p-1 m-3'><h3>" +
+                            "<div class='col-12 p-3 m-3'><h3>" +
                             "Current Weather in " + cityName.toUpperCase() + ": " +
                             currentDate + "<h3>" +
                             "</p><p>" +
