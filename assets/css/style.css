@@ -1,0 +1,18 @@
+.container {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.currentWeather div {
+    border: 1px solid gray;
+    border-radius: 25px;
+}
+
+.currentWeather p {
+    font-size: 20px;
+}
+
+.cardDay {
+    background-color: cornflowerblue;
+    border-radius: 25px;
+}
