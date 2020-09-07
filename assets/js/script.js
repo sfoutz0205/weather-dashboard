@@ -44,7 +44,7 @@ var getForecast = function(cityName) {
 
                     var iconcode = data.list[i].weather[0].icon;
 
-                    var iconurl = "http://openweathermap.org/img/w/" + iconcode + ".png";
+                    var iconurl = "https://openweathermap.org/img/w/" + iconcode + ".png";
 
                     var cardTitle = 
                         "<div><h4>" +
@@ -99,7 +99,7 @@ var getCurrentWeather = function(cityName) {
 
             var iconcode = data.weather[0].icon;
 
-            var iconurl = "http://openweathermap.org/img/w/" + iconcode + ".png";
+            var iconurl = "https://openweathermap.org/img/w/" + iconcode + ".png";
 
             var uvUrl = "https://api.openweathermap.org/data/2.5/uvi?appid=0ced535bc528eb83a827cdf37c9b703f&lat=" + latitude + "&lon=" + longitude;
                 fetch(uvUrl).then(function(response) {
