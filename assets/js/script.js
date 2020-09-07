@@ -53,15 +53,15 @@ var getForecast = function(cityName) {
                         "</h4></div>"
 
                     var cardContent =
-                            "<div class='col-2 m-2 cardDay'><p class='dateForecast'>" +
+                            "<div class='card col-2 m-2 cardDay'><p class='card-title'>" +
                             moment(forecastDate).format("MM/DD/YYYY") +
-                            "</p><p>" +
+                            "</p><p class='card-text'>" +
                             '<img src="' + iconurl + '" />' +
-                            "</p><p>" +
+                            "</p><p class='card-text'>" +
                             "Temp: " +
                             forecastTemp +
                             '℉' +
-                            "</p><p>" +
+                            "</p><p class='card-text'>" +
                             'Humidity: ' +
                             forecastHumidity +
                             '%' +
@@ -111,7 +111,7 @@ var getCurrentWeather = function(cityName) {
             
 
                     var currentContent =
-                            "<div class='col-12 p-3 m-3'><h3>" +
+                            "<div class='col-12 w-auto p-3 m-3'><h3>" +
                             "Current Weather in " + cityName.toUpperCase() + ": " +
                             currentDate + "<h3>" +
                             "</p><p>" +
@@ -138,7 +138,7 @@ var getCurrentWeather = function(cityName) {
 
                     if (uvIndex < 2) {
                         uvIndexDisplay.addClass("bg-success");
-                    } else if (uvIndex > 2 && uvIndex < 5) {
+                    } else if (uvIndex > 2 && uvIndex < 6) {
                         uvIndexDisplay.addClass("bg-warning");
                     } 
                     else if (uvIndex > 5) {
@@ -162,7 +162,7 @@ var renderHistory = function () {
     $(".search-history").html("");
     for (var i = 0; i < cities.length; i++) {
         var searchContent =
-            "<button id='cityBtn' class='col-10 p-3 m-3'><h3 id='cityName'>" +
+            "<button id='cityBtn' class='col-10 p-1 m-3'><h3 id='cityName'>" +
             cities[i] +
             "</button>";
         $(".search-history").prepend(searchContent);
