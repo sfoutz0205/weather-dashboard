@@ -2,8 +2,9 @@ var userFormEl = document.querySelector("#user-form");
 var cityInputEl = document.querySelector("#city");
 var searchHistoryEl = document.querySelector("#search-history");
 var cityBtn = document.querySelector(".cityBtn");
+var clearBtn = document.querySelector("#clear-btn")
 
-var cities = [];
+var cities = JSON.parse(localStorage.getItem('cities')) || [];
 
 // function to be executed upon form submission
 var formSubmitHandler = function(event) {
@@ -28,7 +29,7 @@ var getForecast = function(cityName) {
         if(response.ok) {
         cities.push(cityName);
         localStorage.setItem("cities", JSON.stringify(cities)); 
-        renderHistory(cityName);
+        renderHistory();
         response.json().then(function(data) {
         
 
@@ -106,10 +107,11 @@ var getCurrentWeather = function(cityName) {
                     response.json().then(function(uvData) {
                 
                 var uvIndex = uvData.value;
+                
             
 
                     var currentContent =
-                            "<div class='col-12 p-3 m-3'><h3>" +
+                            "<div class='col-12 p-1 m-3'><h3>" +
                             "Current Weather in " + cityName.toUpperCase() + ": " +
                             currentDate + "<h3>" +
                             "</p><p>" +
@@ -127,7 +129,7 @@ var getCurrentWeather = function(cityName) {
                             currentWind +
                             'mph' +
                             "</p><p>UV Index: " +
-                            uvIndex +
+                            "<span>" + uvIndex + "</span>" +
                             "</p></div>";
 
                     $(".currentWeather").append(currentContent);
@@ -144,15 +146,15 @@ var weatherReset = function() {
     
 };
 
-var renderHistory = function(cityName) {
-    
+var renderHistory = function () {
+    $(".search-history").html("");
+    for (var i = 0; i < cities.length; i++) {
         var searchContent =
             "<button id='cityBtn' class='col-10 p-3 m-3'><h3 id='cityName'>" +
-             cityName +
+            cities[i] +
             "</button>";
-
-            $(".search-history").prepend(searchContent);
-
+        $(".search-history").prepend(searchContent);
+    }
 };
 
 $(document).on('click','#cityBtn',function(){
@@ -163,6 +165,11 @@ $(document).on('click','#cityBtn',function(){
   
 });
 
+var clearHistory = function() {
+    $(".search-history").html().empty();
+}
 
+renderHistory();
+clearBtn.addEventListener("submit", clearHistory);
 userFormEl.addEventListener("submit", formSubmitHandler);
  

@@ -16,3 +16,21 @@
     background-color: cornflowerblue;
     border-radius: 25px;
 }
+
+#cityBtn {
+    font-size: 10px;
+    border-radius: 10px;
+}
+
+#cityName {
+    font-weight: normal;
+    font-size: 25px;
+}
+
+#uv-yellow {
+    background-color: yellow;
+}
+
+.uv-red {
+    background-color: red;
+}
