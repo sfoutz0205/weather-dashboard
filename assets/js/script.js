@@ -129,12 +129,24 @@ var getCurrentWeather = function(cityName) {
                             currentWind +
                             'mph' +
                             "</p><p>UV Index: " +
-                            "<span>" + uvIndex + "</span>" +
+                            "<span id='uv-color'>" + uvIndex + "</span>" +
                             "</p></div>";
 
                     $(".currentWeather").append(currentContent);
-                    })
+
+                    var uvIndexDisplay = $("#uv-color");
+
+                    if (uvIndex < 2) {
+                        uvIndexDisplay.addClass("bg-success");
+                    } else if (uvIndex > 2 && uvIndex < 5) {
+                        uvIndexDisplay.addClass("bg-warning");
+                    } 
+                    else if (uvIndex > 5) {
+                        uvIndexDisplay.addClass("bg-danger");
+                    }
+
                 })
+            })
         });
     });
 };
