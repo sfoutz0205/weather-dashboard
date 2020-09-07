@@ -2,9 +2,8 @@ var userFormEl = document.querySelector("#user-form");
 var cityInputEl = document.querySelector("#city");
 var searchHistoryEl = document.querySelector("#search-history");
 var cityBtn = document.querySelector(".cityBtn");
+
 var cities = [];
-
-
 
 // function to be executed upon form submission
 var formSubmitHandler = function(event) {
@@ -20,7 +19,7 @@ var formSubmitHandler = function(event) {
         alert("Please enter a city.");
     }
 };
-
+// get 5-day forecast
 var getForecast = function(cityName) {
     var forecastUrl = "https://api.openweathermap.org/data/2.5/forecast?q=" + cityName + "&appid=0ced535bc528eb83a827cdf37c9b703f&units=imperial";
     
@@ -79,10 +78,10 @@ var getForecast = function(cityName) {
     });
 };
 
+// get current weather
 var getCurrentWeather = function(cityName) {
     var currentUrl = "https://api.openweathermap.org/data/2.5/weather?q=" + cityName + "&appid=0ced535bc528eb83a827cdf37c9b703f&units=imperial";
     
-
     fetch(currentUrl).then(function(response) {
         response.json().then(function(data) {
             
@@ -94,9 +93,20 @@ var getCurrentWeather = function(cityName) {
             
             var currentWind = data.wind.speed;
 
+            var latitude = data.coord.lat;
+
+            var longitude = data.coord.lon;
+
             var iconcode = data.weather[0].icon;
 
             var iconurl = "http://openweathermap.org/img/w/" + iconcode + ".png";
+
+            var uvUrl = "https://api.openweathermap.org/data/2.5/uvi?appid=0ced535bc528eb83a827cdf37c9b703f&lat=" + latitude + "&lon=" + longitude;
+                fetch(uvUrl).then(function(response) {
+                    response.json().then(function(uvData) {
+                
+                var uvIndex = uvData.value;
+            
 
                     var currentContent =
                             "<div class='col-12 p-3 m-3'><h3>" +
@@ -116,11 +126,15 @@ var getCurrentWeather = function(cityName) {
                             'Wind Speed: ' +
                             currentWind +
                             'mph' +
+                            "</p><p>UV Index: " +
+                            uvIndex +
                             "</p></div>";
 
                     $(".currentWeather").append(currentContent);
-        })
-    })
+                    })
+                })
+        });
+    });
 };
 
 var weatherReset = function() {
